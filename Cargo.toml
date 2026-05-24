@@ -1,0 +1,19 @@
+[package]
+name = "tool-secret-scrubber"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+description = "Strip secrets (API keys, JWTs, bearer tokens, AWS keys, etc.) from arbitrary JSON-like values before they hit your logs. Walks objects/arrays, preserves shape, never mutates input."
+authors = ["Mukunda Rao Katta <mukunda.vjcs6@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/MukundaKatta/tool-secret-scrubber-rs"
+homepage = "https://github.com/MukundaKatta/tool-secret-scrubber-rs"
+documentation = "https://docs.rs/tool-secret-scrubber"
+readme = "README.md"
+keywords = ["secrets", "redact", "scrub", "logging", "security"]
+categories = ["text-processing", "command-line-utilities"]
+exclude = [".github/*", "target/*"]
+
+[dependencies]
+serde_json = "1"
+regex = "1"
