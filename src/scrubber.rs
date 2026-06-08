@@ -78,7 +78,10 @@ impl Scrubber {
         I: IntoIterator<Item = S>,
         S: AsRef<str>,
     {
-        self.secret_keys = keys.into_iter().map(|s| s.as_ref().to_lowercase()).collect();
+        self.secret_keys = keys
+            .into_iter()
+            .map(|s| s.as_ref().to_lowercase())
+            .collect();
         self
     }
 

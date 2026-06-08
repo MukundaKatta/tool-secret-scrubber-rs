@@ -69,51 +69,27 @@ impl Pattern {
 /// have been compile-tested.
 pub fn default_patterns() -> Vec<Pattern> {
     vec![
-        Pattern::new(
-            "anthropic_key",
-            r"sk-ant-api\d{2}-[A-Za-z0-9_\-]{40,}",
-        )
-        .expect("anthropic_key pattern compiles"),
-        Pattern::new(
-            "openai_key",
-            r"sk-(?:proj-)?[A-Za-z0-9_\-]{20,}",
-        )
-        .expect("openai_key pattern compiles"),
-        Pattern::new(
-            "google_api_key",
-            r"AIza[0-9A-Za-z_\-]{35}",
-        )
-        .expect("google_api_key pattern compiles"),
-        Pattern::new(
-            "stripe_key",
-            r"(?:sk|rk|pk)_(?:live|test)_[A-Za-z0-9]{16,}",
-        )
-        .expect("stripe_key pattern compiles"),
-        Pattern::new(
-            "github_token",
-            r"gh[pousr]_[A-Za-z0-9]{20,}",
-        )
-        .expect("github_token pattern compiles"),
-        Pattern::new(
-            "aws_access_key_id",
-            r"(?:AKIA|ASIA)[0-9A-Z]{16}",
-        )
-        .expect("aws_access_key_id pattern compiles"),
+        Pattern::new("anthropic_key", r"sk-ant-api\d{2}-[A-Za-z0-9_\-]{40,}")
+            .expect("anthropic_key pattern compiles"),
+        Pattern::new("openai_key", r"sk-(?:proj-)?[A-Za-z0-9_\-]{20,}")
+            .expect("openai_key pattern compiles"),
+        Pattern::new("google_api_key", r"AIza[0-9A-Za-z_\-]{35}")
+            .expect("google_api_key pattern compiles"),
+        Pattern::new("stripe_key", r"(?:sk|rk|pk)_(?:live|test)_[A-Za-z0-9]{16,}")
+            .expect("stripe_key pattern compiles"),
+        Pattern::new("github_token", r"gh[pousr]_[A-Za-z0-9]{20,}")
+            .expect("github_token pattern compiles"),
+        Pattern::new("aws_access_key_id", r"(?:AKIA|ASIA)[0-9A-Z]{16}")
+            .expect("aws_access_key_id pattern compiles"),
         Pattern::new(
             "jwt",
             r"eyJ[A-Za-z0-9_\-]{8,}\.eyJ[A-Za-z0-9_\-]{8,}\.[A-Za-z0-9_\-]{6,}",
         )
         .expect("jwt pattern compiles"),
-        Pattern::new(
-            "bearer",
-            r"(?i)Bearer\s+[A-Za-z0-9_\-.=]{20,}",
-        )
-        .expect("bearer pattern compiles"),
-        Pattern::new(
-            "slack_token",
-            r"xox[abprs]-[A-Za-z0-9-]{10,}",
-        )
-        .expect("slack_token pattern compiles"),
+        Pattern::new("bearer", r"(?i)Bearer\s+[A-Za-z0-9_\-.=]{20,}")
+            .expect("bearer pattern compiles"),
+        Pattern::new("slack_token", r"xox[abprs]-[A-Za-z0-9-]{10,}")
+            .expect("slack_token pattern compiles"),
     ]
 }
 

@@ -213,7 +213,10 @@ fn custom_secret_keys_replace_defaults() {
     let s = Scrubber::new().with_secret_keys(["my_thing"]);
     let out = s.scrub(json!({"my_thing": "value", "password": "still-leaks"}));
     let v = out["my_thing"].as_str().unwrap();
-    assert!(v.starts_with("[REDACTED:"), "my_thing should be redacted: {v}");
+    assert!(
+        v.starts_with("[REDACTED:"),
+        "my_thing should be redacted: {v}"
+    );
     // password is no longer in the configured set; "still-leaks" does not
     // match any of the default *value* patterns, so it survives.
     assert_eq!(out["password"], "still-leaks");
@@ -256,4 +259,41 @@ fn multiple_hits_in_one_string_each_counted() {
     assert_eq!(v.matches("[REDACTED:anthropic_key]").count(), 2);
     assert_eq!(report.by_pattern.get("anthropic_key"), Some(&2));
     assert_eq!(report.redactions, 2);
+}
+
+// ---- no false positives / edge cases ---------------------------------------
+
+#[test]
+fn innocent_text_is_left_untouched() {
+    let s = Scrubber::default();
+    let payload = json!({
+        "message": "hello world, nothing secret here",
+        "count": "12345",
+        "url": "https://example.com/path?q=1",
+    });
+    let (out, report) = s.scrub_with_report(payload.clone());
+    assert_eq!(out, payload);
+    assert_eq!(report.redactions, 0);
+    assert!(report.by_pattern.is_empty());
+}
+
+#[test]
+fn pattern_new_rejects_invalid_regex() {
+    // An unbalanced group is not a valid regex and must surface as an error
+    // rather than panic.
+    let result = Pattern::new("bad", r"(unclosed");
+    assert!(result.is_err());
+}
+
+#[test]
+fn redaction_preserves_surrounding_multibyte_text() {
+    // Byte-offset slicing must not split a multibyte char when secrets sit
+    // between non-ASCII text.
+    let leaky = format!("sk-ant-api03-{}", "A".repeat(40));
+    let s = format!("café {leaky} naïve");
+    let out = scrub(Value::String(s)).as_str().unwrap().to_string();
+    assert!(out.starts_with("café "), "got: {out}");
+    assert!(out.ends_with(" naïve"), "got: {out}");
+    assert!(out.contains("[REDACTED:anthropic_key]"));
+    assert!(!out.contains("sk-ant-api03"));
 }

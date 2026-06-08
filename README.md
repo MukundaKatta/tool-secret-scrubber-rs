@@ -20,7 +20,7 @@ let safe = scrub(json!({
 }));
 // -> {"tool": "send_email", "args": {
 //     "to": "alice@example.com",
-//     "auth_token": "[REDACTED:auth_token]",
+//     "auth_token": "[REDACTED:anthropic_key]",
 //     "body": "Authorization: [REDACTED:bearer]"
 // }}
 ```
